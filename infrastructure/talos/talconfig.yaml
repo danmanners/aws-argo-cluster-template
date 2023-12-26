@@ -1,0 +1,114 @@
+clusterName: talos
+talosVersion: v1.6.0
+kubernetesVersion: 1.28.4
+endpoint: "https://k8s-cluster.DOMAIN:6443" # This domain must be replaced with your internal AWS Hosted Zone Domain
+
+cniConfig:
+  name: none
+
+additionalApiServerCertSans:
+- 172.29.8.5
+
+additionalMachineCertSans:
+- 172.29.8.5
+- k8s-cluster.DOMAIN # This domain must be replaced with your internal AWS Hosted Zone Domain
+
+nodes:
+# Provisionined in Private AZ 1
+- hostname: control-plane-01.DOMAIN # This domain must be replaced with your internal AWS Hosted Zone Domain
+  disableSearchDomain: true
+  ipAddress: 172.29.8.5
+  controlPlane: true
+  installDisk: /dev/nvme0n1
+  nameservers:
+  - 169.254.169.253 # Magic AWS DNS Servers
+  networkInterfaces:
+  - interface: eth0
+    dhcp: false
+    mtu: 1500
+    addresses:
+    - 172.29.8.5/21
+    routes:
+    - network: 0.0.0.0/0
+      gateway: 172.29.8.1
+# Provisionined in Private AZ 1
+- hostname: kube-worker-1.DOMAIN # This domain must be replaced with your internal AWS Hosted Zone Domain
+  disableSearchDomain: true
+  ipAddress: 172.29.8.100
+  controlPlane: false
+  installDisk: /dev/nvme0n1
+  nameservers:
+  - 169.254.169.253 # Magic AWS DNS Servers
+  networkInterfaces:
+  - interface: eth0
+    dhcp: false
+    mtu: 1500
+    addresses:
+    - 172.29.8.100/21
+    routes:
+    - network: 0.0.0.0/0
+      gateway: 172.29.8.1
+# Provisioned in Private AZ 2
+- hostname: kube-worker-2.DOMAIN # This domain must be replaced with your internal AWS Hosted Zone Domain
+  disableSearchDomain: true
+  ipAddress: 172.29.16.101
+  controlPlane: false
+  installDisk: /dev/nvme0n1
+  nameservers:
+  - 169.254.169.253 # Magic AWS DNS Servers
+  networkInterfaces:
+  - interface: eth0
+    dhcp: false
+    mtu: 1500
+    addresses:
+    - 172.29.16.101/21
+    routes:
+    - network: 0.0.0.0/0
+      gateway: 172.29.16.1
+
+patches:
+- |-
+  machine:
+    kubelet:
+      extraArgs:
+        rotate-server-certificates: "true"
+      extraConfig:
+        maxPods: 150
+      nodeIP:
+        validSubnets:
+            - 172.29.8.0/21
+            - 172.29.16.0/21
+    sysctls:
+      vm.max_map_count: "524288"
+      fs.file-max: "131072"
+      fs.inotify.max_user_watches: "1048576"
+      fs.inotify.max_user_instances: "8192"
+    time:
+      disabled: false
+      servers:
+        - 169.254.169.123
+
+controlPlane:
+  schematic: {}
+  patches:
+  - |-
+    cluster:
+      allowSchedulingOnMasters: true
+      externalCloudProvider:
+        enabled: true
+        manifests:
+          - https://raw.githubusercontent.com/kubernetes/cloud-provider-aws/master/examples/existing-cluster/base/aws-cloud-controller-manager-daemonset.yaml
+          - https://raw.githubusercontent.com/kubernetes/cloud-provider-aws/master/examples/existing-cluster/base/cluster-role.yaml
+      coreDNS:
+        disabled: true
+      network:
+        podSubnets:
+          - 10.252.0.0/16
+        serviceSubnets:
+          - 10.253.0.0/16
+  - |-
+    - op: remove
+      path: /cluster/apiServer/admissionControl
+
+worker:
+  schematic: {}

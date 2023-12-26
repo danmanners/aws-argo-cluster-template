@@ -1,0 +1,14 @@
+# Directories
+.vscode/
+charts/
+
+# Pulumi Files
+bin/
+node_modules/
+
+# Files
+*.pem
+*.key
+
+# Backup Files
+*.bak
