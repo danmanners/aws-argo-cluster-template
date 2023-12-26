@@ -73,7 +73,7 @@ This project was heavily influenced by the following projects and communities:
 
 ### Communities
 
-<img src="https://discordapp.com/api/guilds/673534664354430999/widget.png?style=banner2" alt="Discord Banner 2"/>
+![Discord Banner 2](https://discordapp.com/api/guilds/673534664354430999/widget.png?style=banner2)
 
 Without the inspiration and assistance of these individuals and communities, this project would not be possible.
 
