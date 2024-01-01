@@ -1,0 +1,16 @@
+kubeVersion: 1.28
+namespace: kube-system
+
+ingress:
+  enabled: false
+
+createController: true
+secretName: sealed-secrets-key
+
+metrics:
+  serviceMonitor:
+    enabled: false # We'll get this working later with Kube-Prometheus-Stack
+    namespace: monitoring
+  dashboards:
+    create: false # We'll get this working later with Kube-Prometheus-Stack
+    namespace: monitoring

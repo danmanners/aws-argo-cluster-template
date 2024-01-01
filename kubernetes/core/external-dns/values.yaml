@@ -1,0 +1,24 @@
+txtOwnerId: cloud
+txtPrefix: txt.
+registry: txt
+domainFilters:
+- "DOMAIN"
+# If there are multiple Domains that you wish to replace, add them to the list here
+
+policy: sync
+interval: 30s
+
+provider: aws
+extraArgs:
+- --aws-zone-type=public
+
+env:
+- name: AWS_DEFAULT_REGION
+  value: us-east-1
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::AWS_ACCOUNT_ID:role/kubeNodeRole-NODEROLEID
+
+crd:
+  create: true

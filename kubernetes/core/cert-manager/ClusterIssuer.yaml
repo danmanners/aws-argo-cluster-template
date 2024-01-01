@@ -1,0 +1,19 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: acme-prod
+spec:
+  acme:
+    email: Your.Email.Here@provider.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: acme-prod-account-key
+    solvers:
+    - dns01:
+        route53:
+          region: us-east-1
+          hostedZoneID: Your-AWS-Hosted-Zone
+      selector:
+        dnsZones:
+        - "DOMAIN"
+        # If there are multiple Domains that you wish to replace, add them to the list here

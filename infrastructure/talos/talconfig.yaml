@@ -68,6 +68,12 @@ nodes:
 
 patches:
 - |-
+  cluster:
+    network:
+      podSubnets:
+        - 10.252.0.0/16
+      serviceSubnets:
+        - 10.253.0.0/16
   machine:
     kubelet:
       extraArgs:
@@ -94,18 +100,13 @@ controlPlane:
   - |-
     cluster:
       allowSchedulingOnMasters: true
+      coreDNS:
+        disabled: true
       externalCloudProvider:
         enabled: true
         manifests:
           - https://raw.githubusercontent.com/kubernetes/cloud-provider-aws/master/examples/existing-cluster/base/aws-cloud-controller-manager-daemonset.yaml
           - https://raw.githubusercontent.com/kubernetes/cloud-provider-aws/master/examples/existing-cluster/base/cluster-role.yaml
-      coreDNS:
-        disabled: true
-      network:
-        podSubnets:
-          - 10.252.0.0/16
-        serviceSubnets:
-          - 10.253.0.0/16
   - |-
     - op: remove
       path: /cluster/apiServer/admissionControl

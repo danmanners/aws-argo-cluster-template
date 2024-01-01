@@ -1,0 +1,59 @@
+# Controller Settings
+controller:
+  name: controller
+  containerName: controller
+  dnsPolicy: ClusterFirst
+  containerPort:
+    http: 80
+    https: 443
+  ingressClass:
+    name: nginx
+    setAsDefaultIngress: true
+  publishService:
+    enabled: true
+  kind: daemonset
+  resources:
+    requests:
+      cpu: 100m
+      memory: 90Mi
+  autoscaling:
+    enabled: false
+  service:
+    create: true
+    type: NodePort
+    externalTrafficPolicy: Local
+    annotations:
+      external-dns.alpha.kubernetes.io/hostname: nginx.DOMAIN
+    extraLabels: {}
+    loadBalancerIP: ""
+    clusterIP: ""
+    externalIPs: []
+    loadBalancerSourceRanges: []
+    ipFamilyPolicy: SingleStack
+    ipFamilies:
+    - IPv4
+    httpPort:
+      enable: true
+      nodePort: 32120
+      targetPort: 80
+    httpsPort:
+      enable: true
+      nodePort: 32130
+      targetPort: 443
+  shareProcessNamespace: false
+  opentelemetry:
+    enabled: false
+    containerSecurityContext:
+      allowPrivilegeEscalation: false
+  metrics:
+    enabled: false # We'll get this working later with Kube-Prometheus-Stack
+  lifecycle:
+    preStop:
+      exec:
+        command:
+        - /wait-shutdown
+  config:
+    force-ssl-redirect: true
+# Enable RBAC
+rbac:
+  create: true

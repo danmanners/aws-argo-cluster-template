@@ -1,0 +1,6 @@
+replicaCount: 2
+deployment:
+  name: coredns
+service:
+  name: kube-dns
+  clusterIP: 10.253.0.10

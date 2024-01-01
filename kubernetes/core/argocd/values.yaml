@@ -1,0 +1,33 @@
+configs:
+  cm:
+    admin.enabled: true
+    url: https://argocd.DOMAIN # This is the URL that you will use to access ArgoCD
+  secret:
+    # Generate your own password with `htpasswd -nbBC 10 "" PASSWORD | cut -c2-`
+    # Three critical notes:
+    # 1 - Make sure you replace PASSWORD with your own password in the command above!!
+    # 2 - Copy the output from the command and replace the value below with it.
+    # 3 - For simplicity sake, I recommend re-running the command until you can be positive there are no `/` characters in the output.
+    #     We don't want to have to escape the `/` characters.
+    argocdServerAdminPassword: "$2y$10$Pe14LNSKxYWjX6tXQunFveIsSU5s3AJHW8ivCYPz4dV86t5EyzU8q"
+server:
+  config:
+    application.instanceLabelKey: argocd.argoproj.io/instance
+    url: https://argocd.DOMAIN
+    # Why in the heck is this here? See below!
+    # https://argo-cd.readthedocs.io/en/release-2.4/faq/#why-is-my-application-still-outofsync-immediately-after-a-successful-sync
+    # https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml#L235
+    # Thanks a ton to @onedr0p, @toboshii, and @xUnholy for the help in figuring this out!
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: acme-prod
+      external-dns.alpha.kubernetes.io/target: nginx.DOMAIN
+      external-dns.alpha.kubernetes.io/ttl: "300"
+    hosts:
+    - argocd.DOMAIN
+    tls:
+    - secretName: argocd-cert
+      hosts:
+      - argocd.DOMAIN
