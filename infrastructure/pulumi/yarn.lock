@@ -262,17 +262,12 @@
   resolved "https://registry.yarnpkg.com/@types/google-protobuf/-/google-protobuf-3.15.12.tgz#eb2ba0eddd65712211a2b455dc6071d665ccf49b"
   integrity sha512-40um9QqwHjRS92qnOaDpL7RmDK15NuZYo9HihiJRbYkMQZlWnuH8AdvbMy8/o6lgLmKbDUKa+OALCltHdbOTpQ==
 
-"@types/node@>=12.12.47", "@types/node@>=13.7.0":
+"@types/node@>=12.12.47", "@types/node@>=13.7.0", "@types/node@^20.0.0":
   version "20.10.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-20.10.6.tgz#a3ec84c22965802bf763da55b2394424f22bfbb5"
   integrity sha512-Vac8H+NlRNNlAmDfGUP7b5h/KA+AtWIzuXy0E6OyP8f1tCLYAtPvKRRDJjAPqhpCb0t6U2j7/xqAuLEebW2kiw==
   dependencies:
     undici-types "~5.26.4"
-
-"@types/node@^14":
-  version "14.18.63"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.18.63.tgz#1788fa8da838dbb5f9ea994b834278205db6ca2b"
-  integrity sha512-fAtCfv4jJg+ExtXhvCkCqUKZ+4ok/JQk01qDKhL5BDDoS3AxKXhV5/MAVUZyQnSEd2GT92fkgZl0pz0Q0AzcIQ==
 
 ansi-regex@^5.0.1:
   version "5.0.1"
