@@ -4,15 +4,22 @@ This repository is an opinionated way to deploy Kubernetes in [AWS](https://aws.
 
 > The estimated cost (in USD) for this project [can be found here](https://calculator.aws/#/estimate?id=c5b85559c7cc50a0376c8f36c6d51c45e2c81917) and equates to about $0.1678 per hour or $122.51 per month, or $1,470.12 per year.
 
+## Critical Notes
+
+> [!WARNING]
+> This project is still in the _very_ early stages of development and is not ready for production use. Please use at your own risk!
+
 ## 👋 Introduction
 
-tbd
+This project aims to serve as an opinioned but practical starting point for deploying cloud resources using [Infrastructure-as-Code](https://www.redhat.com/en/topics/automation/what-is-infrastructure-as-code-iac) (**IaC**), Kubernetes in AWS using [Talos Linux](https://www.talos.dev/) (_**not**_ AWS EKS), and [GitOps](https://about.gitlab.com/topics/gitops/) using [ArgoCD](https://argoproj.github.io/cd). I want to enable those interested to learn how to go from zero to operational, so I will attempt to explain everything in detail as you navigate through this repository! I hope this serves as a useful learning tool for you, dear reader, as well as a practical starting point for deploying your own Kubernetes cluster in the cloud.
+
+As best I can, links to other resources that I have found useful in my personal learning journey and references to any technology utilized by this project will be provided.
 
 ## ✨ Features
 
-- An Automated and Immutable Deployment of Kubernetes in AWS
-- Vanilla ArgoCD deployment to quickly get started
-- Encrypted Secrets using [Bitnami-Labs/Sealed-Secrets](https://github.com/bitnami-labs/sealed-secrets)
+- Automated and Immutable Deployment of Kubernetes in AWS
+- ArgoCD for GitOps and declarative service management
+- Encrypted Secrets in your Git Repo using [Bitnami-Labs/Sealed-Secrets](https://github.com/bitnami-labs/sealed-secrets)
 
 ...and more!
 
@@ -52,10 +59,6 @@ tbd
 tbd
 
 ## 📣 Post installation
-
-tbd
-
-## 🐛 Debugging
 
 tbd
 
