@@ -1,6 +1,7 @@
 configs:
   cm:
     admin.enabled: true
+    application.instanceLabelKey: argocd.argoproj.io/instance
     url: https://argocd.DOMAIN # This is the URL that you will use to access ArgoCD
   secret:
     # Generate your own password with `htpasswd -nbBC 10 "" PASSWORD | cut -c2-`
@@ -10,6 +11,13 @@ configs:
     # 3 - For simplicity sake, I recommend re-running the command until you can be positive there are no `/` characters in the output.
     #     We don't want to have to escape the `/` characters.
     argocdServerAdminPassword: "$2y$10$Pe14LNSKxYWjX6tXQunFveIsSU5s3AJHW8ivCYPz4dV86t5EyzU8q"
+  params:
+    server.insecure: "true"
+    # This might _look_ bad, but the reason we're doing this is because we're using 
+    # an ingress controller and terminating TLS at the edge controller. If we were
+    # terminating TLS at the ArgoCD server container, we'd want to set this to false
+    # or remove it entirely, and the default behavior is false.
+
 server:
   config:
     application.instanceLabelKey: argocd.argoproj.io/instance
