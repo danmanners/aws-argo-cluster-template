@@ -6,23 +6,72 @@ spec:
   backoffLimit: 5
   template:
     spec:
+      restartPolicy: Never
       containers:
       - name: bootstrap
-        command:
-        - /bin/bash
-        - -c
-        - |
-          set -euo pipefail
-          # Install kubectl
-          curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kubectl
-          chmod +x ./kubectl
-          sudo mv ./kubectl /usr/local/bin/kubectl
-          # Install kustomize
-          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
-          sudo mv ./kustomize /usr/local/bin/kustomize
-          # Install yq
-          sudo snap install yq
-          # Install helm
-          curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-          # Install kubectx and kubens
-          git clone
+        image: replace-image
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        # Cluster Provisioning Script
+        - name: cluster-provisioning
+          mountPath: /opt/cluster-provisioning
+        # ArgoCD Installation Script
+        - name: argocd
+          mountPath: /opt/argocd.sh
+          subPath: install.sh
+        # Cert-Manager Installation Script
+        - name: cert-manager
+          mountPath: /opt/cert-manager.sh
+          subPath: install.sh
+        # Cilium Installation Script
+        - name: cilium
+          mountPath: /opt/cilium.sh
+          subPath: install.sh
+        # CoreDNS Installation Script
+        - name: coredns
+          mountPath: /opt/coredns.sh
+          subPath: install.sh
+        # EBS CSI Driver Installation Script
+        # - name: ebs-csi-driver
+        #   mountPath: /opt/ebs-csi-driver.sh
+        #   subPath: install.sh
+        # External DNS Installation Script
+        - name: external-dns
+          mountPath: /opt/external-dns.sh
+          subPath: install.sh
+        # Ingress Nginx Installation Script
+        - name: ingress-nginx
+          mountPath: /opt/ingress-nginx.sh
+          subPath: install.sh
+        # Sealed Secrets Installation Script
+        - name: sealed-secrets
+          mountPath: /opt/sealed-secrets.sh
+          subPath: install.sh
+      volumes:
+      - name: cluster-provisioning
+        configMap:
+          name: cluster-provisioning
+      - name: argocd
+        configMap:
+          name: install-argocd
+      - name: cert-manager
+        configMap:
+          name: install-cert-manager
+      - name: cilium
+        configMap:
+          name: install-cilium
+      - name: coredns
+        configMap:
+          name: install-coredns
+      # - name: ebs-csi-driver
+      #   configMap:
+      #     name: install-ebs-csi-driver
+      - name: external-dns
+        configMap:
+          name: install-external-dns
+      - name: ingress-nginx
+        configMap:
+          name: install-ingress-nginx
+      - name: sealed-secrets
+        configMap:
+          name: install-sealed-secrets

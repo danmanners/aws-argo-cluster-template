@@ -1,13 +1,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: kube-system
 
 resources:
-- rbac.yaml
+- argocd # RBAC and Service Account for ArgoCD
+- kube-system # RBAC and Service Account for kube-system
 
 configMapGenerator:
 # Cluster Provisioning
 - name: cluster-provisioning
+  namespace: kube-system
   files:
   - init.sh
 # Install ArgoCD for GitOps
@@ -26,9 +27,9 @@ configMapGenerator:
   files:
   - ../coredns/install.sh
 # AWS EBS CSI Driver for EBS Storage and StorageClass
-- name: install-ebs-csi-driver
-  files:
-  - ../ebs-csi-driver/install.sh
+# - name: install-ebs-csi-driver
+#   files:
+#   - ../ebs-csi-driver/install.sh
 # Install External DNS for Route53 DNS records
 - name: install-external-dns
   files:
