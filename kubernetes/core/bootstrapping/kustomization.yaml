@@ -1,0 +1,43 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kube-system
+
+resources:
+- rbac.yaml
+
+configMapGenerator:
+# Cluster Provisioning
+- name: cluster-provisioning
+  files:
+  - init.sh
+# Install ArgoCD for GitOps
+- name: install-argocd
+  files:
+  - ../argocd/install.sh
+# Install cert-manager for TLS certificates
+- name: install-cert-manager
+  files:
+  - ../cert-manager/install.sh
+# Install Cilium CNI and Hubble
+- name: install-cilium
+  files:
+  - ../cilium/install.sh
+- name: install-coredns
+  files:
+  - ../coredns/install.sh
+# AWS EBS CSI Driver for EBS Storage and StorageClass
+- name: install-ebs-csi-driver
+  files:
+  - ../ebs-csi-driver/install.sh
+# Install External DNS for Route53 DNS records
+- name: install-external-dns
+  files:
+  - ../external-dns/install.sh
+# Install Ingress Nginx as our Ingress Controller
+- name: install-ingress-nginx
+  files:
+  - ../ingress-nginx/install.sh
+# Install Bitnami Sealed Secrets for storing secrets in Git
+- name: install-sealed-secrets
+  files:
+  - ../sealed-secrets/install.sh

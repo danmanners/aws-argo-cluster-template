@@ -167,17 +167,15 @@ export const security_groups = {
     description:
       "Security Group for Talos Configuration, Management, and Communication",
     ingress: [
+      // Allow all inbound traffic from the VPC
+      // In the future, we want to lock this down to only the
+      // required ports and protocols for Talos and Kubernetes
+      // cross-node communication
       {
-        description: "Talos - talosctl commands",
-        port: 50000,
-        protocol: "tcp",
-        cidr_blocks: ["0.0.0.0/0"],
-      },
-      {
-        description: "Talos - Control plane & worker node communication",
-        port: 50001,
-        protocol: "tcp",
-        cidr_blocks: ["0.0.0.0/0"],
+        description: "Self - Everything TCP",
+        port: -1,
+        protocol: "all",
+        cidr_blocks: [network.vpc.cidr_block],
       },
     ],
     egress: [
@@ -212,6 +210,13 @@ export const security_groups = {
         port_end: 32767,
         protocol: "tcp",
         cidr_blocks: ["0.0.0.0/0"],
+      },
+      {
+        description: "Self - Everything TCP",
+        port: -1,
+        protocol: "all",
+        // Loop through the privateIp of each node and add them to the cidr_blocks
+        cidr_blocks: compute.kube_nodes.map((n) => `${n.privateIp}/32`),
       },
     ],
     egress: [

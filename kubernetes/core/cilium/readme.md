@@ -9,6 +9,6 @@ helm repo add cilium https://helm.cilium.io/
 helm repo update
 # Template out and install the Cilium Helm chart via pipe to `kubectl apply`
 helm template cilium cilium/cilium -n kube-system \
---version 1.13.1 --values values.yaml | \
+--version 1.14.5 --values values.yaml | \
 kubectl apply -f -
 ```

@@ -15,6 +15,6 @@ helm repo add cert-manager https://charts.jetstack.io
 helm repo update
 # Template out and install the cert-manager Helm chart via pipe to `kubectl apply`
 helm template cert-manager cert-manager/cert-manager \
---values values.yaml -n kube-system | \
+--values values.yaml --version 1.13.3 -n kube-system | \
 kubectl apply -f -
 ```
