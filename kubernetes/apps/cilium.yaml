@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &name cilium
+  namespace: argocd
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+  # Helm Repo Ref
+  - repoURL: https://github.com/USERNAME/REPOSITORY.git
+    targetRevision: main
+    ref: values
+    # Helm Chart Deployment
+  - repoURL: https://helm.cilium.io/
+    chart: *name
+    targetRevision: 1.14.5
+    helm:
+      valueFiles:
+      - $values/kubernetes/core/cilium/values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true

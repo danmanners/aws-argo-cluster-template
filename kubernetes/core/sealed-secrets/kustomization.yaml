@@ -3,6 +3,5 @@ kind: Kustomization
 namespace: sealed-secrets
 
 resources:
-- namespace.yaml
 # renovate: datasource=github-releases depName=bitnami-labs/sealed-secrets
 - https://raw.githubusercontent.com/bitnami-labs/sealed-secrets/release/v0.24.2/helm/sealed-secrets/crds/bitnami.com_sealedsecrets.yaml

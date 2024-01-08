@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &name ingress-nginx
+  namespace: argocd
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+  # Git Repo Deployment
+  - path: kubernetes/core/ingress-nginx
+    repoURL: &repo https://github.com/USERNAME/REPOSITORY.git
+    targetRevision: &targetRev main
+  # Helm Repo Ref
+  - repoURL: *repo
+    targetRevision: *targetRev
+    ref: values
+  # Helm Chart Deployment
+  - repoURL: https://kubernetes.github.io/ingress-nginx
+    chart: *name
+    targetRevision: 4.9.0
+    helm:
+      valueFiles:
+      - $values/kubernetes/core/ingress-nginx/values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true

@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &name coredns
+  namespace: argocd
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+  # Helm Repo Ref
+  - repoURL: https://github.com/USERNAME/REPOSITORY.git
+    targetRevision: main
+    ref: values
+    # Helm Chart Deployment
+  - repoURL: https://coredns.github.io/helm
+    chart: *name
+    targetRevision: 1.28.1
+    helm:
+      valueFiles:
+      - $values/kubernetes/core/cilium/values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true

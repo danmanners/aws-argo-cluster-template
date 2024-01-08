@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &name external-dns
+  namespace: argocd
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+  # Helm Repo Ref
+  - repoURL: https://github.com/USERNAME/REPOSITORY.git
+    targetRevision: main
+    ref: values
+    # Helm Chart Deployment
+  - repoURL: https://kubernetes-sigs.github.io/external-dns/
+    chart: *name
+    targetRevision: 1.13.1
+    helm:
+      valueFiles:
+      - $values/kubernetes/core/external-dns/values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true

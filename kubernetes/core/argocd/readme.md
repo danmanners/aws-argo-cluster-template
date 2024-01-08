@@ -12,6 +12,6 @@ helm repo add argoproj https://argoproj.github.io/argo-helm
 helm repo update
 # Template out and install the Argo CD Helm chart via pipe to `kubectl apply`
 helm template argo-cd argoproj/argo-cd \
---version "5.51.2" --values values.yaml -n kube-system | \
+--version 5.51.2 --values values.yaml -n kube-system | \
 kubectl apply -f -
 ```

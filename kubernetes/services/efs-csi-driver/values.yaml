@@ -1,0 +1,21 @@
+fullnameOverride: efs
+replicaCount: 1
+
+storageClasses: []
+# Add StorageClass resources like this:
+# - name: efs
+#   annotations:
+#     storageclass.kubernetes.io/is-default-class: "true"
+#   mountOptions:
+#   - tls
+#   parameters:
+#     provisioningMode: efs-ap
+#     fileSystemId: fs-1122aabb
+#     directoryPerms: "700"
+#     gidRangeStart: "1000"
+#     gidRangeEnd: "2000"
+#     basePath: "/dynamic_provisioning"
+#     subPathPattern: "/subPath"
+#     ensureUniqueDirectory: true
+#   reclaimPolicy: Delete
+#   volumeBindingMode: Immediate

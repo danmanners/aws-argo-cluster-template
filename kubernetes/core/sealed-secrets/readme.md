@@ -4,14 +4,14 @@
 
 ```bash
 # Apply the namespace to the cluster
-kubectl apply -f namespace.yaml
+kubectl create ns sealed-secrets
 
 # Add the Bitnami Sealed Secrets Helm repository
 helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
 # Update your local Helm chart repository cache
 helm repo update
 # Template out and install the Sealed Secret Helm chart via pipe to `kubectl apply`
-helm template sealed-secrets sealed-secrets/sealed-secrets -n sealed-secrets \
---version 2.14.1 --values values.yaml | \
+helm template sealed-secrets sealed-secrets/sealed-secrets
+-n sealed-secrets --version 2.14.1 --values values.yaml | \
 kubectl apply -f -
 ```

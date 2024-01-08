@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: &name cert-manager
+  namespace: argocd
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+  # Git Repo Deployment
+  - path: kubernetes/core/cert-manager
+    repoURL: &repo https://github.com/USERNAME/REPOSITORY.git
+    targetRevision: &targetRev main
+  # Helm Repo Ref
+  - repoURL: *repo
+    targetRevision: *targetRev
+    ref: values
+  # Helm Chart Deployment
+  - repoURL: https://charts.jetstack.io
+    chart: *name
+    targetRevision: 1.13.3
+    helm:
+      valueFiles:
+      - $values/kubernetes/core/cert-manager/values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
