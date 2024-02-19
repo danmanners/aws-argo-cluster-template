@@ -2,15 +2,18 @@
 # push the resulting image to both ECR and the GHCR Registry.
 
 name: Build and Push Bootstrapping Container
-on:
-  push:
-    branches:
-      - main
+on: workflow_dispatch
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Configures AWS credentials
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.REGION }}
       # Checkout the repository
       - name: Checkout
         uses: actions/checkout@v4.1.1
@@ -20,14 +23,30 @@ jobs:
       # Log in to the Amazon ECR registry
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2.0.1
+      # Log in to the GitHub Container Registry
+      - name: "Login to GitHub Container Registry"
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Get the repository name
+      - name: Get Repository Name
+        run: |
+          GHR=$(echo "${{ github.repository }}" | awk -F '/' '{print $2}')
+          echo "GITHUB_REPO=${GHR}" >> $GITHUB_ENV
+
       # Build and push the container
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v5
+        env:
+          TAG: "latest"
+          GITHUB_REPO: ${{ env.GITHUB_REPO }}
         with:
-          context: ./containers
-          file: Dockerfile
+          context: "{{defaultContext}}:containers"
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}/bootstrapping:${tag:=latest}
-            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/bootstrapping:${tag:=latest}
+            ghcr.io/${{ github.repository }}/bootstrapping:${{ env.TAG }}
+            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.REGION }}.amazonaws.com/${{ env.GITHUB_REPO }}:${{ env.TAG }}
