@@ -54,7 +54,7 @@ As best I can, links to other resources that I have found useful in my personal 
 
 tbd
 
-### 🔧 Stage 3: Do bootstrap configuration
+### 🔧 Stage 3: Prep all critical files
 
 tbd
 

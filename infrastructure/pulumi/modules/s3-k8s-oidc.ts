@@ -38,9 +38,9 @@ export function createOidcBucket(config: any) {
         {
           allowedHeaders: ["*"],
           allowedMethods: ["GET", "HEAD"],
-          allowed_origins: ["*"],
-          expose_headers: ["ETag"],
-          max_age_seconds: 3000,
+          allowedOrigins: ["*"],
+          exposeHeaders: ["ETag"],
+          maxAgeSeconds: 3000,
         },
         {
           allowedMethods: ["GET"],

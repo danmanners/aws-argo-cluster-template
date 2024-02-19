@@ -5,7 +5,21 @@ In order to encrypt and decrypt secrets, you will need to generate two keypairs.
 > [!IMPORTANT]
 > You should **NEVER** commit your Sealed Secret private key to source control unencrypted, nor should you ever commit your Age private key to source control unencrypted. If you do, you may end up exposing secrets to the public. [Read this quick blog post from GitGuardian](https://blog.gitguardian.com/what-t`o-do-if-you-expose-a-secret/) on what to do, but the TL;DR is **Breathe**, **Rotate**, **Revoke**.
 
-## Sealed Secrets Keypair
+## Key Generation - Automated
+
+> [!NOTE]
+> You should use the automated script unless you want to generate your keys manually.
+
+You can generate your keys by running the following command from the root of this repository.
+
+```bash
+scripts/environment-setup.sh
+```
+
+## Sealed Secrets Keypair - Manual Steps
+
+> [!NOTE]
+> If you are using the automated script, you can skip this section.
 
 You can generate your own keys in this directory by running the following commands.
 
@@ -22,7 +36,7 @@ openssl req -x509 \
 -subj "/CN=sealed-secret/O=sealed-secret"
 ```
 
-## Age / SOPS Keypair
+### Age / SOPS Keypair
 
 Using the `age` tool, we can generate the SOPS key we will use to encrypt our Sealed Secret private key.
 
@@ -35,7 +49,12 @@ AGEPUBKEY=$(age-keygen -y age.key)
 sops -e -i -a=${AGEPUBKEY} sealed-secret.key
 ```
 
-## Creating your `.sops.yaml` file
+> [!CAUTION]
+> Do **NOT** lose your Age private key. If you do, you will not be able to decrypt your Sealed Secret private key.
+> If you do lose it, you will need to rotate your Sealed Secret private key and re-encrypt all of your secrets.
+> Keep your backups in a safe and secure location that is not accessible to the public.
+
+### Creating your `.sops.yaml` file
 
 Finally, we can create our `.sops.yaml` file that will be used by SOPS to encrypt and decrypt our secrets. This file will be used by SOPS to encrypt (and decrypt) our secrets.
 

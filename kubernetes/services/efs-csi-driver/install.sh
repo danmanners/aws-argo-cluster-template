@@ -9,11 +9,6 @@ else
 fi
 
 # Set our variables
-HELM_REPO_NAME="cert-manager"
-HELM_REPO_SOURCE="https://charts.jetstack.io"
-HELM_APP_NAME="cert-manager"
-HELM_APP_VERSION="1.13.3"
-HELM_APP_NAMESPACE="kube-system"
 
 # Add the Helm repository
 helm repo add ${HELM_REPO_NAME} ${HELM_REPO_SOURCE}

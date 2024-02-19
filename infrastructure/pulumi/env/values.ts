@@ -2,10 +2,12 @@ import { Node } from "../types/types";
 
 // General Values
 export const general = {
-  domain: "your_domain_here.com", // Replace this with your own public domain
-  github_username: "YourUsernameHere", // Replace this with your own GitHub Username
-  public_hosted_zone: "Z016942938TFLEH1J2FS1", // Replace this with your own Route53 Hosted Zone ID
-  bucket_name: "cloud-homelab-oidc-auth", // Replace this with your own S3 Bucket Name
+  domain: "your_domain_here", // Replace this with your own public domain
+  github_username: "your_github_username", // Replace this with your own GitHub Username
+  repo_name: "your_github_repo_name", // Replace this with your own GitHub Repo Name
+  public_hosted_zone: "your_hosted_zone_id", // Replace this with your own Route53 Hosted Zone ID
+  aws_account_id: "your_aws_account_id", // Replace this with your own AWS Account ID
+  bucket_name: "oidc_bucket_name", // Replace this with your own S3 Bucket Name
   domain_comment: "Internal DNS HostedZone for the cloud cluster",
 };
 
@@ -13,15 +15,14 @@ export const general = {
 export const tags = {
   environment: "homelab",
   project_name: "cloud-homelab",
-  repo_name: "homelab-kube-cluster",
-  github_url: `https://github.com/${general.github_username}/homelab-kube-cluster`,
+  github_url: `https://github.com/${general.github_username}/${general.repo_name}`,
 };
 
 // Cloud Setup Values
 export const cloud_auth = {
   aws_region: "us-east-1",
   aws_profile: "default",
-  aws_account_id: "001122334455", // Replace this with your own AWS Account ID
+  aws_account_id: general.aws_account_id,
 };
 
 export const user_data = {
@@ -151,11 +152,11 @@ export const amis: {
     // https://cloud-images.ubuntu.com/locator/ec2/, search '22.04 us-east-1'
     bastion_amd64: "ami-0a5f04cdf7758e9f0", // Ubuntu Linux 22.04
     // amd64 / 64-Bit x64 Architecture
-    masters_amd64: "ami-0fd267b9f1b72a285", // v1.6.0
-    workers_amd64: "ami-0fd267b9f1b72a285", // v1.6.0
+    masters_amd64: "ami-09360283b6eec5d54", // v1.6.4
+    workers_amd64: "ami-09360283b6eec5d54", // v1.6.4
     // arm64 / 64-Bit ARM Architecture
-    masters_arm64: "ami-0874ca2dcfec825b4", // v1.6.0
-    workers_arm64: "ami-0874ca2dcfec825b4", // v1.6.0
+    masters_arm64: "ami-06adfbb8b54041f82", // v1.6.4
+    workers_arm64: "ami-06adfbb8b54041f82", // v1.6.4
   },
 };
 

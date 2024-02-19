@@ -53,5 +53,5 @@ RUN apk add --no-cache wget tar upx && \
 FROM docker.io/library/alpine:${ALPINE_VERSION} AS runtime
 # Copy the init directory from the init stage
 COPY --from=init /opt/init /opt/init
-RUN apk add --no-cache curl jq yq git
+RUN apk add --no-cache curl jq yq git nc
 ENV PATH="/opt/init:${PATH}"

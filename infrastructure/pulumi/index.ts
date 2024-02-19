@@ -75,13 +75,14 @@ const nlb = createLoadBalancer(
 );
 
 // Create the OIDC S3 Bucket
-const bucket = createOidcBucket(config);
+// const bucket = createOidcBucket(config);
 
 // Create the Bastion Node
 // This is ONLY for debugging purposes and will be removed in the future
 createBastion(
   config.compute.bastion[0], // Node Config
   config.cloud_auth.aws_region, // Region
+  config.cloud_auth.aws_account_id, // Account ID
   config.amis, // AMI
   config.network.vpc.cidr_block, // CIDR Block
   vpc.id, // VPC

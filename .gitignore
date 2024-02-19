@@ -1,6 +1,7 @@
 # Directories
 .vscode/
 charts/
+patches/
 
 # Pulumi Files
 bin/

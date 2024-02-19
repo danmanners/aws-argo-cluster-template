@@ -15,7 +15,8 @@ export function createLoadBalancer(
     internal: false,
     loadBalancerType: "network",
     subnets: subnetIds,
-    enableDeletionProtection: true,
+    // This is set to false for the purpose of this demo; in a production environment, you would want to set this to true
+    enableDeletionProtection: false,
     securityGroups: securityGroupIds,
     tags: tags,
   });
