@@ -679,10 +679,10 @@ esprima@^4.0.0:
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-4.0.1.tgz#13b04cdb3e6c5d19df91ab6987a8695619b0aa71"
   integrity sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==
 
-eta@^1.12.3:
-  version "1.14.2"
-  resolved "https://registry.yarnpkg.com/eta/-/eta-1.14.2.tgz#5e6181a26ec13d8444c559ce51f7b3090cebbdd1"
-  integrity sha512-wZmJAV7EFUG5W8XNXSazIdichnWEhGB1OWg4tnXWPj0CPNUcFdgorGNO6N9p6WBUgoUe4P0OziJYn1+6zxP2aQ==
+eta@^3.0.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/eta/-/eta-3.2.0.tgz#7a2af4c897f57ea9483f5d953dc35c1ab0e97080"
+  integrity sha512-Qzc3it7nLn49dbOb9+oHV9rwtt9qN8oShRztqkZ3gXPqQflF0VLin5qhWk0g/2ioibBwT4DU6OIMVft7tg/rVg==
 
 events@1.1.1:
   version "1.1.1"
