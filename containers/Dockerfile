@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.6.0
+# syntax=docker/dockerfile:1.18.0
 
 # Set Args
 ARG ALPINE_VERSION=3.19
